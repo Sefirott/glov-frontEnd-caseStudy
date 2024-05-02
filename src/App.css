@@ -1,13 +1,11 @@
 .userResponse {
   display: flex;
-  flex-direction: row;
   position: absolute;
   bottom: 20px;
-  width: auto;
 }
 
 .textResponse {
-  width: 350px;
+  width: 360px;
   appearance: none;
   border: none;
   outline: none;
@@ -18,9 +16,9 @@
 }
 
 .sendResponse {
-  border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.3em 1em;
+  border-radius: 8px;
+  padding: 0.3em 9em;
   margin: 15px;
   font-size: 1em;
   font-weight: 500;
@@ -35,4 +33,9 @@
 .sendResponse:focus,
 .sendResponse:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.responseButtonContainer {
+  display: flex;
+  justify-content: center;
 }

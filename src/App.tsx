@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./App.css";
 
-function App() {
+const App = () => {
   return (
     <div className="main">
       <h1>Customer Service GPT</h1>
@@ -14,11 +14,13 @@ function App() {
             placeholder="Your Message"
             className="textResponse"
           />
-          <input type="submit" value="Send" className="sendResponse" />
+          <div className="responseButtonContainer">
+            <input type="submit" value="Send" className="sendResponse" />
+          </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default App;
