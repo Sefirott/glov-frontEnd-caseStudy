@@ -6,8 +6,35 @@ interface Response {
   role: "gpt" | "customer";
 }
 
+const serverlessURL = "";
+
 const App = () => {
   const [responses, setResponses] = useState<Response[]>([]);
+  const [responseValue, setResponeValue] = useState<string>("");
+
+  const newResponse: React.FormEventHandler = async (e) => {
+    e.preventDefault();
+    setResponeValue("");
+
+    const newResponseValue: Response[] = [
+      ...responses,
+      {
+        message: responseValue,
+        role: "customer",
+      },
+    ];
+    const lambdaRequest = await fetch(serverlessURL, {
+      method: "POST",
+      body: JSON.stringify({ value: newResponseValue }),
+    });
+    setResponses([
+      ...newResponseValue,
+      {
+        role: "gpt",
+        message: await lambdaRequest.text(),
+      },
+    ]);
+  };
 
   return (
     <div className="main">
@@ -29,11 +56,13 @@ const App = () => {
       ))}
 
       <div className="userResponse">
-        <form className="vertical">
+        <form className="vertical" onSubmit={newResponse}>
           <input
             type="text"
             placeholder="Your Message"
             className="textResponse"
+            value={responseValue}
+            onChange={(e) => setResponeValue(e.currentTarget.value)}
           />
           <div className="responseButtonContainer">
             <input type="submit" value="Send" className="sendResponse" />
