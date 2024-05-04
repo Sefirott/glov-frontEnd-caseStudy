@@ -70,7 +70,7 @@ const App = () => {
         {
           role: "gpt",
           message: (await lambdaRequest.text()).replace(
-            /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn)/g,
+            /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn|n\d+)/g,
             ""
           ),
         },
@@ -93,7 +93,10 @@ const App = () => {
       {responses.map((response, index) => (
         <div key={index + 100} className="conversation">
           <p key={index} className={`response-${response.role}`}>
-            {response.message}
+            {response.message.replace(
+              /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn|n\d+)/g,
+              ""
+            )}
           </p>
         </div>
       ))}
