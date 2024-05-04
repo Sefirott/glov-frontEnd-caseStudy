@@ -102,7 +102,7 @@ const App = () => {
       ))}
 
       <div className="userResponse">
-        {!clicked && (
+        {responses.length === 0 && (
           <div
             className="quickReply"
             onClick={(e) => {

@@ -4,7 +4,15 @@
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background: -webkit-linear-gradient(
+    -45deg,
+    #183850 0,
+    #183850 25%,
+    #192c46 50%,
+    #22254c 75%,
+    #22254c 100%
+  );
+  background-repeat: no-repeat;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
