@@ -92,9 +92,12 @@ const App = () => {
 
       {responses.map((response, index) => (
         <div key={index + 100} className="conversation">
+          <span className={`rolemark-${response.role}`}>
+            {response.role === "user" ? "YOU" : "GPT"}
+          </span>
           <p key={index} className={`response-${response.role}`}>
             {response.message.replace(
-              /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn|n\d+|\.n.)/g,
+              /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn|n\d+|\.n.|"|:n)/g,
               ""
             )}
           </p>
