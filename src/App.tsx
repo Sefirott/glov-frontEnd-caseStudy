@@ -94,7 +94,7 @@ const App = () => {
         <div key={index + 100} className="conversation">
           <p key={index} className={`response-${response.role}`}>
             {response.message.replace(
-              /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn|n\d+)/g,
+              /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn|n\d+|\.n.)/g,
               ""
             )}
           </p>
