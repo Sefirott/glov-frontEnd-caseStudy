@@ -70,7 +70,7 @@ const App = () => {
         {
           role: "gpt",
           message: (await lambdaRequest.text()).replace(
-            /(\n|(?<!\\)\\(?!\\))/g,
+            /(\n+|(?<!\\)\\(?!\\)|nn\d+|nn)/g,
             ""
           ),
         },
