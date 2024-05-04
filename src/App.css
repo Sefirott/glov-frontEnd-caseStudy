@@ -50,7 +50,7 @@
   transform: translateX(-50%);
 }
 
-.response-customer {
+.response-user {
   background-color: #e91e63;
   padding: 5px;
   border-radius: 10px;
@@ -62,4 +62,47 @@
 .conversation {
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: 768px) {
+  .response-gpt {
+    transform: translateX(0%);
+  }
+  .response-user {
+    transform: translateX(0%);
+  }
+}
+@media only screen and (max-width: 375px) {
+  .textResponse {
+    width: 240px;
+  }
+  .sendResponse {
+    padding: 0.3em 6em;
+  }
+}
+body {
+  padding-bottom: 250px;
+}
+
+.quickReply {
+  background-color: #1f1f1f;
+  border-radius: 24px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.quickReply:hover {
+  background-color: #2b2b2b;
+  cursor: pointer;
+}
+
+.quickReply-title {
+  font-weight: bold;
+  color: #fff;
+}
+
+.quickReply-content {
+  color: #fff;
+  font-size: 14px;
 }

@@ -1,28 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./App.css";
 interface Response {
   message: string;
-  role: "gpt" | "customer";
+  role: "gpt" | "user";
 }
-
-const serverlessURL = "";
+const serverlessURL = import.meta.env.REACT_APP_FUNCTION_URL;
 
 const App = () => {
   const [responses, setResponses] = useState<Response[]>([]);
   const [responseValue, setResponeValue] = useState<string>("");
+  const [clicked, setClicked] = useState<boolean>(false);
 
   const newResponse: React.FormEventHandler = async (e) => {
     e.preventDefault();
     setResponeValue("");
 
+    if (responseValue === "") {
+      return;
+    }
+
     const newResponseValue: Response[] = [
       ...responses,
       {
         message: responseValue,
-        role: "customer",
+        role: "user",
       },
     ];
+
+    setResponses([...newResponseValue, { role: "gpt", message: "..." }]);
+
     const lambdaRequest = await fetch(serverlessURL, {
       method: "POST",
       body: JSON.stringify({ value: newResponseValue }),
@@ -31,10 +38,46 @@ const App = () => {
       ...newResponseValue,
       {
         role: "gpt",
-        message: await lambdaRequest.text(),
+        message: (await lambdaRequest.text()).replace(
+          /(\n|(?<!\\)\\(?!\\))/g,
+          ""
+        ),
       },
     ]);
   };
+
+  useEffect(() => {
+    if (clicked === false) {
+      return;
+    }
+    const fetchRequest = async () => {
+      const newResponseValue: Response[] = [
+        ...responses,
+        {
+          message: "Need help with my device... It's not responding anymore",
+          role: "user",
+        },
+      ];
+
+      setResponses([...newResponseValue, { role: "gpt", message: "..." }]);
+
+      const lambdaRequest = await fetch(serverlessURL, {
+        method: "POST",
+        body: JSON.stringify({ value: newResponseValue }),
+      });
+      setResponses([
+        ...newResponseValue,
+        {
+          role: "gpt",
+          message: (await lambdaRequest.text()).replace(
+            /(\n|(?<!\\)\\(?!\\))/g,
+            ""
+          ),
+        },
+      ]);
+    };
+    fetchRequest();
+  }, [clicked]);
 
   return (
     <div className="main">
@@ -48,7 +91,7 @@ const App = () => {
       )}
 
       {responses.map((response, index) => (
-        <div className="conversation">
+        <div key={index + 100} className="conversation">
           <p key={index} className={`response-${response.role}`}>
             {response.message}
           </p>
@@ -56,6 +99,19 @@ const App = () => {
       ))}
 
       <div className="userResponse">
+        {!clicked && (
+          <div
+            className="quickReply"
+            onClick={(e) => {
+              e.preventDefault();
+              setClicked(true);
+            }}
+          >
+            <p className="quickReply-title">Need help with my device...</p>
+            <p className="quickReply-content">It's not responding anymore</p>
+          </div>
+        )}
+
         <form className="vertical" onSubmit={newResponse}>
           <input
             type="text"
